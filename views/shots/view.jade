@@ -1,0 +1,129 @@
+extends ../layout
+
+block content
+
+  .container
+    .row.shot
+      .eight.columns
+        .hero.zoom: img(src=cloudinary.url(shot.cloudinary_public, { width: 1200, crop: 'fit', format: 'png' }))
+        .shot-meta.u-cf 
+          .shooter.u-pull-left: a(href="/users/#{shot._shooter.username}")
+            img.avatar.u-pull-left(src=cloudinary.url(shot._shooter.avatar, { width: 24, height: 24, crop: 'fill' }))
+            span #{shot._shooter.username}
+            .timestamp #{parseDate(shot.created)}
+          .shot-controls.u-pull-right
+            if userAuth 
+              if userAuth.username == shot._shooter.username
+                form(role="form", action="/shots/#{shot._id}?_method=DELETE" method="post" onsubmit="return confirm('DELETE this shot?');")
+                  button(type="submit" class="tooltip" title="Delete")
+                   i.icon.icon-trash-o
+            if(userAuth)
+              a(href="#" title="Like?" class=(isFan(userAuth, shot.fans) ? 'tooltip like-shot' : 'tooltip like-shot liked') data-isFan="#{isFan(userAuth, shot.fans)}")
+                i.icon.icon-heart
+            else
+              span Like this shot?&nbsp;
+               a(href="/login") Login
+               | &nbsp;or&nbsp;
+               a(href="/register") Join
+            a(href="#{shot.cloudinary_url}" target="_new" title="Show Original" class="tooltip"): i.icon.icon-expand
+
+      .four.columns
+        h1.header-small #{shot.os} : #{shot.de} : #{shot.wm}
+
+        table
+          tr
+            td OS
+            td #{shot.os} #{shot.osVer} (#{shot.osCodeName})
+          tr
+            td DE
+            td #{shot.de} #{shot.deVer}
+          tr
+            td WM
+            td #{shot.wm}
+          tr
+            td WM Theme
+            td #{shot.wmTheme}
+          tr
+            td GTK Theme
+            td #{shot.gtkThemeTitle}
+              if shot.gtkThemeVer && shot.gtkThemeTitle != "Not Found"
+                &nbsp;[GTK#{shot.gtkThemeVer}]
+          tr
+            td Icon Theme
+            td #{shot.iconTheme}
+          tr
+            td Shell
+            td #{shot.shell} #{shot.shellVer}
+          tr
+            td Resolution
+            td #{shot.resolution}
+          tr
+            td Font
+            td #{shot.font} #{shot.fontSize}
+          tr
+            td Colors
+            td
+              ul.colors
+                each val, key in shot.colors
+                  li(class="tooltip" title="#{val[0]} : #{val[1]}%")!= parseColors(val)
+
+        .shot-fans.u-cf
+          h3.header-small.fans-header
+            span.likeCount
+            =(likeCount > 1 ? "Fans" : 'Fan')
+          ul.fans
+            each fan in shot.fans
+              li(id="#{fan._id}")
+                a(href="/users/#{fan.username}")
+                  img.avatar.u-pull-left(src=cloudinary.url(fan.avatar, { width: 24, height: 24, crop: 'fill' }))
+                  | #{fan.username}
+
+
+block scripts  
+  script(src='/javascripts/vendor/jquery.zoom.min.js')
+
+  script(type="text/javascript").
+    $(document).ready(function(){
+      $('.hero').zoom({url: '#{shot.cloudinary_url}'})
+
+      $('.likeCount').html('#{likeCount}')
+
+      if(#{likeCount} == 0) {
+        $('.fans-header').hide()
+      }
+    })
+  if(userAuth)    
+    script(type="text/javascript").
+      $(document).ready(function(){
+        $('.like-shot').click(function(e){
+          e.preventDefault();
+          var data = {};
+          data.liked = $(this).attr('data-isFan');
+          data.fan = '#{userAuth._id}';
+          data.shooter = '#{shot._shooter._id}';
+
+          $.ajax({
+              type: 'POST',
+              url: '/shots/#{shot._id}/like',
+              data: data,
+              success: function(data) {
+                $('.like-shot').toggleClass('liked').attr('data-isFan', data.isFan)
+                $('.likeCount').html(data.likeCount)
+                if(data.isFan == 0) {
+                  $('.fans').append('<li id="#{userAuth._id}"><a href="/users/#{userAuth.username}"><img class="avatar u-pull-left" src="#{cloudinary.url(userAuth.avatar, { width: 24, height: 24, crop: "fill" })}"/> #{userAuth.username}</a></li>')
+                } else {
+                  $('.fans ##{userAuth._id}').remove();
+                }
+                if(data.likeCount > 0) {
+                  $('.fans-header').show()
+                } else {
+                  $('.fans-header').hide();
+                }
+              }
+          });
+        });
+
+      });
+
+
+  

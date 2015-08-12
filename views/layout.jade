@@ -1,0 +1,55 @@
+doctype html
+html
+  head
+    title Fetched.io | A Screenfetch Utility
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300')
+    script(src='https://use.fonticons.com/27f251b0.js')
+  body(class=(bodyClassTag ? "#{bodyClassTag}" : ''))
+    #header
+      .container
+        ul.header-nav
+          li
+            a.brand.header-small(href="/")
+              img(src='/images/shell.svg')
+              | Fetched.io
+        .header-auth
+          if (!userAuth)
+            a(href="/login" class="login") Login
+            a.button.button-primary(href="/register") Join
+          if (userAuth)
+            div.auth-nav 
+              a(href="/users/#{userAuth.username}" class="button-user")
+                | #{userAuth.username}
+                img.avatar(src=cloudinary.url(userAuth.avatar, { width: 24, height: 24, crop: 'fill' }))
+              ul
+                li: a(href="/users/#{userAuth.username}" class="button-user")
+                  span.view-profile View Profile
+                  img.avatar(src=cloudinary.url(userAuth.avatar, { width: 24, height: 24, crop: 'fill' }))
+                li: a(href="/users/#{userAuth.username}/edit")
+                  | Edit Account&nbsp;
+                  i.icon.icon-pencil
+                li: a(href="/logout")
+                  | Logout&nbsp;
+                  i.icon.icon-sign-out
+
+    block content
+
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js")
+    script(src="/javascripts/vendor/jquery.tooltipster.min.js")
+    script(src="/javascripts/vendor/pace.min.js")
+    script(type="text/javascript").
+      $(document).ready(function() {
+        $('.auth-nav').hover(
+          function () {
+            $('ul', this).stop().fadeIn(200);
+          },
+          function () {
+            $('ul', this).stop().fadeOut(100);
+          }
+        );   
+        $('.tooltip').tooltipster();
+      });
+
+    block scripts

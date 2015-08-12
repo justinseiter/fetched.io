@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+
+  .container
+    .row
+      .two.columns
+        .user-meta
+          img.avatar.profile(src=cloudinary.url(user.avatar, { width: 256, height: 256, crop: 'fill' }))
+          h1.header-small #{user.username}
+          if(user.shots.length)
+            .current-distro #{user.shots[0].os} : #{user.shots[0].osVer} (#{user.shots[0].osCodeName})
+
+      .ten.columns
+        .shots-container
+          each shot in user.shots
+            .shot-card-wrapper
+              .shot-card.u-cf
+                a(href="/shots/#{shot.id}"): img.fetch(src=cloudinary.url(shot.cloudinary_public + '.png', { width: 400, height: 225, crop: 'fill' }))
+                h2.title: a(href="/shots/#{shot.id}") #{shot.os}
+                  if shot.de != 'Not Present'
+                    | : #{shot.de} 
+                .shot-meta
+                  span.fans
+                    i.icon.icon-heart-o
+                    | #{shot.fans.length}
+
+block scripts
+  script(type="text/javascript").
+    $('.shots-container').masonry({
+      // options
+      itemSelector: '.shot-card-wrapper',
+      gutter: 30
+    });
+
+
+
+
+

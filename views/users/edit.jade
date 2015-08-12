@@ -1,0 +1,55 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .three.columns &nbsp;
+      .six.columns
+        .auth-form
+          .form-body(style='max-width:420px')
+            .form-header
+              h1.header-small Edit Account
+            .cloudinary-preview-wrap
+              .cloudinary-preview
+                img.avatar-full.avatar(src=cloudinary.url(user.avatar, { width: 64, height: 64, crop: 'fill' }))
+            form(enctype="multipart/form-data" class="cloudinary-upload u-pull-left")!=cloudinary.uploader.image_upload_tag('image')
+            form(role="form" action="/users/editUser" method="post")
+              input(type="hidden" class="image_public_id" name="avatar" value="#{user.avatar}")
+              input(type="hidden" name="username" value="#{user.username}")
+              input(type="password" name="password" value="" placeholder="New password...")
+              input(type="password" name="newPassword" value="" placeholder="Confirm new password...")
+              input(type="email", name="email", value="#{user.email}" required)
+              button(type="submit" class="button-primary") Save
+              | &nbsp;&nbsp;
+              a(href="/users/#{user.username}" class="button") Cancel
+
+block scripts  
+  script(src='/javascripts/vendor/jquery.ui.widget.js')
+  script(src='/javascripts/vendor/jquery.iframe-transport.js')
+  script(src='/javascripts/vendor/jquery.fileupload.js')
+  script(src='/javascripts/vendor/jquery.cloudinary.js')
+    
+  script(type="text/javascript").
+    // OK to expose key/cloud in this instance. Here's why...
+    // All uploads must include a unique signature in order to validate.
+    // The signature is based on the upload options, the current timestamp, and the api_secret (hidden). 
+    // Signatures valid for 1 hour.
+    $.cloudinary.config({ api_key: '733966175477567', cloud_name: 'dujajeeu7' });
+
+    $('.cloudinary-fileupload').bind('fileuploadstart', function(e){
+      $('.cloudinary-preview').html('<i class="icon icon-hourglass-half"></i>');
+    });
+
+    $('.cloudinary-fileupload').bind('fileuploadfail', function (e, data) {
+      var failMessage = $.parseJSON(data.jqXHR.responseText);
+      $("<div class='flash error'>" + failMessage.error.message + "</div>").insertAfter('.form-header');    
+    })
+
+    $('.cloudinary-fileupload').bind('cloudinarydone', function(e, data) {  $('.cloudinary-preview').html(
+      $.cloudinary.image(data.result.public_id, 
+          { format: data.result.format, version: data.result.version, 
+            crop: 'thumb', width: 128, height: 128 }));    
+      $('.image_public_id').val(data.result.public_id + '.' + data.result.format);    
+      return true;
+    });
+

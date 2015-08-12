@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .three.columns &nbsp;
+      .six.columns
+        .auth-form
+          .brand-header
+            a.brand.header-small(href="/")
+              img(src='/images/shell.svg')
+              | Fetched.io
+          .form-body
+            .form-header
+              h1.header-small Your Key
+            p.text-center Please add this line to your .profile
+            .key: pre export FETCHED_ID=#{userAuth.fetchedKey}
+            p: a(href="/shots" class="button button-primary u-full-width") Got it!

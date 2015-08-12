@@ -1,0 +1,111 @@
+extends ../layout
+
+block content
+
+  .container
+    .row
+      .two.columns
+        .sidebar-nav
+          h2.header-small
+            i.icon.icon-linux
+            | &nbsp;Distro
+          ul.filter.filter-os
+          h2.header-small
+            i.icon.icon-desktop
+            | &nbsp;Desktop
+          ul.filter.filter-de
+          h2.header-small
+            i.icon.icon-columns
+            | &nbsp;Window
+          ul.filter.filter-wm
+      .ten.columns.shots-wrapper
+        if(os || de || wm)
+          h1.header-small
+            a(href="/shots") Shots&nbsp;
+            i.icon.icon-angle-right
+            | &nbsp;#{os}#{de}#{wm}
+        .shots-container
+          each shot in shots
+            .shot-card-wrapper
+              .shot-card
+                a(href="/shots/#{shot.id}"): img.fetch(src=cloudinary.url(shot.cloudinary_public, { width: 400, height: 225, crop: 'fill', format: 'png' }))
+                h2.title: a(href="/shots/#{shot.id}") #{shot.os}
+                  if shot.de != 'Not Present'
+                    | : #{shot.de} 
+                .shot-meta
+                  span.fans
+                    i.icon.icon-heart-o
+                    | #{shot.fans.length}
+                  .shooter(title="#{shot._shooter.username}" class="tooltip"): a(href="/users/#{shot._shooter.username}")
+                    img.avatar(src=cloudinary.url(shot._shooter.avatar, { width: 24, height: 24, crop: 'fill' }))
+
+
+         if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
+          .pagination
+            ul.pager
+              if paginate.hasPreviousPages
+                li.previous
+                  a(class="button" href=paginate.href(true)).prev
+                    i.icon.icon-arrow-left
+                    |  Previous
+              if paginate.hasNextPages(pageCount)
+                li.next
+                  a(class="button" href=paginate.href()).next
+                    | Next&nbsp;
+                    i.icon.icon-arrow-right
+
+
+block scripts
+  script(type="text/javascript").
+    $('.shots-container').masonry({
+      // options
+      itemSelector: '.shot-card-wrapper',
+      gutter: 30
+    });
+
+    (function() {
+      var data = {};
+
+      $.ajax({
+          type: 'GET',
+          url: '/filter/os',
+          data: data,
+          success: function(data) {
+            console.log(data)
+            $.each(data, function(index, value) {
+              $(".filter-os").append('<li><a href="/shots?page=1&limit=12&os=' + value + '">'+ value +'</a></li>');
+            })
+          }
+      });
+
+      $.ajax({
+          type: 'GET',
+          url: '/filter/de',
+          data: data,
+          success: function(data) {
+            console.log(data)
+            $.each(data, function(index, value) {
+              if(value != 'Not Present') {
+                $(".filter-de").append('<li><a href="/shots?page=1&limit=12&de=' + value + '">'+ value +'</a></li>');
+              }
+            })
+          }
+      });
+
+      $.ajax({
+          type: 'GET',
+          url: '/filter/wm',
+          data: data,
+          success: function(data) {
+            console.log(data)
+            $.each(data, function(index, value) {
+              $(".filter-wm").append('<li><a href="/shots?page=1&limit=12&wm=' + value + '">'+ value +'</a></li>');
+            })
+          }
+      });
+      //- $.get("filter", function(data) {
+      //-   $.each(data, function(index, value) {
+      //-     $(".filter-os").append('<li><a href="/shots?page=1&limit=15&os=' + value + '">'+ value +'</a></li>');
+      //-   })
+      //- })
+    })();   

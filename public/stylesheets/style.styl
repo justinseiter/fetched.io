@@ -1,0 +1,160 @@
+@import 'vendor/normalize'
+@import 'vendor/skeleton'
+@import 'vendor/tooltipster'
+@import 'vendor/pace'
+@import 'header'
+@import 'shots'
+@import 'users'
+
+
+body 
+  background #fbfbfb
+  padding 5.5em 0 3em
+  color #393B47
+  *
+    box-sizing border-box
+  &.auth
+    background #282931
+ul 
+  list-style none
+
+img 
+  max-width 100%
+
+a 
+  text-decoration none
+  color #535668
+  border-bottom 1px solid #eee
+a:hover
+  color #333
+  border-bottom 1px solid #333
+
+.header-small
+  text-transform uppercase
+  font-size 1.4rem
+  letter-spacing .08rem
+  font-weight 600
+  color #535668 
+
+.avatar
+  width 24px
+  border-radius 100%
+  border 1px solid #222
+  background #fff
+  &.full
+    width 64px
+  &.profile
+    width 128px
+
+.auth-form
+  .button-big
+    height 58px
+  .brand-header
+    text-align center
+    margin-bottom 3em
+    .brand
+      letter-spacing .2rem
+      color #FFFBDC
+      border none
+      img
+        width: 24px;
+        position: relative;
+        top: 0.4em;
+        margin-right: 0.5em;
+  .form-body
+    margin auto
+    max-width 360px
+    background #fff
+    padding 2em 2em 0
+    border 1px solid #111
+    box-shadow 0 1px 3px rgba(#000, 0.1)
+    border-radius 4px
+    .key
+      text-align center
+      pre
+        background #F5D76E
+        padding 1em
+        border-radius 2px
+  .form-header
+    text-align center
+    margin 0 0 1em
+    opacity 0.5
+
+.note
+  font-size 0.85em
+  font-style italic
+  opacity 0.8
+
+.text-center
+  text-align center
+  
+.pagination
+  li
+    display inline-block
+    margin-right 3em
+
+.flash
+  padding 1rem
+  border-radius 2px
+  text-align center
+  margin-bottom 1rem
+  &.error
+    background #E74C3C
+    color white
+
+.auth-nav
+  position relative
+  border-right 1px solid #555
+  border-left 1px solid #555
+  padding 1.5rem 
+  line-height 1
+  text-align right
+  font-weight 600
+  .button-user
+    color #FFFBDC
+    border none !important
+    img 
+      display inline-block
+      margin -0.5rem 0 0 0.5rem
+      float right
+  ul
+    position absolute
+    display none
+    background #fff
+    border-bottom-right-radius 4px
+    border-bottom-left-radius 4px
+    box-shadow 0 2px 3px rgba(black, 0.3)
+    line-height 1
+    top 0%
+    right 0
+    min-width 170px
+    overflow hidden
+    margin 0
+    padding 0
+    background #90AA3C
+    li 
+      margin 0
+      display block
+      background #fff
+      &:hover
+        background #90AA3C
+        color #fff
+      &:first-child a
+        padding-bottom 2em
+    a
+      padding 1.5rem 
+      color #535668 !important
+      display block
+      text-align right
+      border-top 1px solid #eee
+      border-bottom none
+      &:hover
+        background #90AA3C
+        color #fff !important
+    .view-profile
+      position relative
+      top 4px
+      display inline-block
+    i
+      width 24px
+      text-align center

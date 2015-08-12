@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .container
+    h1 Error Message
+    pre= message
+    h2 Error Status
+    pre= error.status
+    hr
+    pre #{error.stack}
