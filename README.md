@@ -20,7 +20,7 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
 **The "fetch" option has not been officially merged into the main screenFetch app yet.**  However, you can use the following steps to start submitting shots to Fetched.io.
 
  1. Signup at http://fetched.io/register and get your **FETCHED_ID**.
- 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or anywhere you prefer. The result we're after is getting back a FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID``` should return the ID from the source file you use.
+ 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or anywhere you prefer. The result we're after is getting back a FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID``` should return the ID from the source file you chose.
  3. Install [screenFetch](https://github.com/KittyKatt/screenFetch) or go to the next step if you already have it.
  4.  Add [the following snippet](https://gist.github.com/justinseiter/cd624a4948596a72cd32) to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with ```which screenfetch```. [This is what your copy of screenFetch should look like when you're done.](https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096)
  5. You're all set! Now just issue the command ```screenfetch -s -u fetch```.
@@ -28,7 +28,13 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
 ## Troubleshooting
 
 **ISSUE: No link is returned**, ie - ```your screenshot can be viewed at```
+
 **SOLUTION:** This probably means you haven't updated your local copy of screenFetch with the "fetch" snippet. See "Step 4" above. It's also possible you mistyped the command. It should be ```screenfetch -s -u fetch```
 
 **ISSUE: Link takes you directly to http://fetched.io/shots/**
-**SOLUTION:** If your link does not include an ID for the shot in the path, ie - http://fetched.io/shots/1a2b3c it probably means it cannot find the FETCHED_ID local variable. Check that the variable is available by typing ```echo $FETCHED_ID``` in your terminal. If a blank line is returned see "Step 2" above. Note, if you added the environment variable to your ```.profile``` you'll need to logout/login or issue the command ```source ~/.profile``` to reload the variables in the file.
+
+**SOLUTION:** If your link does not include an ID for the shot in the path, ie - ```shots/1a2b3c...``` it probably means it cannot find the FETCHED_ID local variable. Check that the variable is available by typing ```echo $FETCHED_ID``` in your terminal. If a blank line is returned see "Step 2" above. Note, if you added the environment variable to your ```.profile``` you'll need to logout/login or issue the command ```source ~/.profile``` to reload the variables in the file.
+
+**ISSUE: Uploads stopped working and no link is produced.**
+
+**SOLUTION:** This could be due to your local copy of screenFetch getting updated by your package manager. See "Step 4" above to add the "fetch" snippet back. I know, this sucks. However, if/when "fetch" is merged into the official screenFetch app everything will be dandy. :)
