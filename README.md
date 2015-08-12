@@ -7,7 +7,7 @@ Once a Fetched.io account is created the user adds their newly issued Fetched.io
 
     export FETCHED_ID=123456789
 
-Shots can be taken and uploaded by passing screenFetch the "-s" (screenshot) and "-u" (upload) flags. The final "fetch" flag tells screenFetch where to push the shot.
+Shots can be taken and uploaded by passing screenFetch the "-s" (screenshot) and "-u" (upload) flags. The final "fetch" flag tells screenFetch where to push the shot. **Note: "fetch" has not been officially merged into the main screenFetch app. Please see the "Getting Started" section below for details**
 
     $ screenfetch -s -u fetch
     Taking shot in 3.. 2.. 1..
@@ -17,12 +17,18 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
     ==>  Your screenshot can be viewed at http://fetched.io/shots/abcd
 
 ## Getting Started
-**The "fetch" option has not been officially merged into the main screenFetch app yet.** 
+**The "fetch" option has not been officially merged into the main screenFetch app yet.**  However, you can use the following steps to start submitting shots to Fetched.io.
 
-In the meantime you can use the following steps to start submitting shots to Fetched.io.
-
- 1. Signup at http://fetched.io/register to create an account and receive your **FETCHED_ID**.
- 2. Add your FETCHED_ID to your existing list of local environment variables. Usually these are stored in a file located at ```/home/username/.profile```. If you prefer to store it in ```.bashrc``` or ```.zshrc``` that is fine too. The result we're after is getting back a FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID``` should return the ID from the source file.
- 3. Install the latest version of [screenFetch](https://github.com/KittyKatt/screenFetch). Their is an option for just about every type of distro.
- 4.  Add [the following snippet](https://gist.github.com/justinseiter/cd624a4948596a72cd32) to the "takeShot" section of your local screenFetch. A good place to add it is just before the "local-example". You can find where screenFetch is located on your system with ```which screenfetch```.
+ 1. Signup at http://fetched.io/register and get your **FETCHED_ID**.
+ 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or anywhere you prefer. The result we're after is getting back a FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID``` should return the ID from the source file you use.
+ 3. Install [screenFetch](https://github.com/KittyKatt/screenFetch) or go to the next step if you already have it.
+ 4.  Add [the following snippet](https://gist.github.com/justinseiter/cd624a4948596a72cd32) to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with ```which screenfetch```. [This is what your copy of screenFetch should look like when you're done.](https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096)
  5. You're all set! Now just issue the command ```screenfetch -s -u fetch```.
+
+## Troubleshooting
+
+**ISSUE: No link is returned**, ie - ```your screenshot can be viewed at```
+**SOLUTION:** This probably means you haven't updated your local copy of screenFetch with the "fetch" snippet. See "Step 4" above. It's also possible you mistyped the command. It should be ```screenfetch -s -u fetch```
+
+**ISSUE: Link takes you directly to http://fetched.io/shots/**
+**SOLUTION:** If your link does not include an ID for the shot in the path, ie - http://fetched.io/shots/1a2b3c it probably means it cannot find the FETCHED_ID local variable. Check that the variable is available by typing ```echo $FETCHED_ID``` in your terminal. If a blank line is returned see "Step 2" above. Note, if you added the environment variable to your ```.profile``` you'll need to logout/login or issue the command ```source ~/.profile``` to reload the variables in the file.
