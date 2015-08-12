@@ -10,7 +10,6 @@ block content
           h1.header-small #{user.username}
           if(user.shots.length)
             .current-distro #{user.shots[0].os} : #{user.shots[0].osVer} (#{user.shots[0].osCodeName})
-
       .ten.columns
         .shots-container
           each shot in user.shots

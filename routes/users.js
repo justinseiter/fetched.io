@@ -19,8 +19,6 @@ router.get('/:username', function(req, res) {
   });
 });
 
-
-
 router.get('/:username/edit', ensureAuthentication, function(req, res) {
   var username = req.params.username;
   User.findOne({ username: username }, function(err, user){
@@ -49,7 +47,6 @@ router.post('/editUser', ensureAuthentication, function(req, res){
       console.log("Passwords do not match")
     }
   } 
-
   User.findOne(query,function(err, user){
     if(err) {
       return res.sendStatus(500);

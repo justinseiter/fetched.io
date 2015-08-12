@@ -27,7 +27,6 @@ router.get('/', function (req, res, next){
     query = {};
   }
   Shot.paginate(query, { page: req.query.page, limit: req.query.limit, populate: [ { path:'_shooter', select:'username avatar'}] , sortBy: {created: -1} }, function(err, shots, pageCount, itemCount) {
-
     if (err) return next(err);
     res.format({
       html: function() {
@@ -49,9 +48,7 @@ router.get('/', function (req, res, next){
         });
       }
     });
-
   });
-
 });
 
 router.get('/:shotId', function(req, res){
@@ -73,9 +70,7 @@ router.get('/:shotId', function(req, res){
     var likeCount = shot.fans.length;
     res.render('shots/view', { shot:shot, likeCount:likeCount })
   });
-
 });
-
 
 router.post('/:shotId/like', ensureAuthentication, function(req, res){
   var shotId = req.params.shotId;
@@ -96,11 +91,8 @@ router.post('/:shotId/like', ensureAuthentication, function(req, res){
     }
     shot.save();
     var likeCount = shot.fans.length;
-
     res.send({likeCount:likeCount, isFan:isFan});
-
   });
-
 });
 
 
@@ -110,7 +102,6 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
   if(!shotId) {
     return res.sendStatus(400);
   }
-
   async.waterfall([
     function(callback) {
       Shot.findById(shotId, function(err, shot){
@@ -122,7 +113,6 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
         }
         callback(null, shot);
       });
-
     },
     function(shot, callback) {
       cloudinary.api.delete_resources(shot.cloudinary_public, function(result){
@@ -149,7 +139,6 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
       // If an error occured, we let express/connect handle it by calling the "next" function
       return next(err);
     }
-
     Shot.remove(shot, function(err){
       if(err) {
         return res.sendStatus(500);
@@ -161,7 +150,6 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
 });
 
 router.post('/', upload.single('file'), function(req, res, next){
-
   var shot = req.body;
   var image = req.file;
 
@@ -274,7 +262,6 @@ router.post('/', upload.single('file'), function(req, res, next){
       });
     }
   );
-
 });
 
 module.exports = router;
