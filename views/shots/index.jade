@@ -61,6 +61,7 @@ block scripts
       gutter: 30
     });
 
+
     (function() {
       $.ajax({
           type: 'GET',
@@ -74,3 +75,8 @@ block scripts
           }
       });
     })();   
+
+    $(document).ajaxComplete(function() {
+      var url = location.pathname + location.search;
+      $('.filter a[href="'+url+'"]').addClass('active');
+    }); 
