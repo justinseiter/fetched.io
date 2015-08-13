@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-
   .container
     .row
       .two.columns
@@ -39,7 +38,6 @@ block content
                   .shooter(title="#{shot._shooter.username}" class="tooltip"): a(href="/users/#{shot._shooter.username}")
                     img.avatar(src=cloudinary.url(shot._shooter.avatar, { width: 24, height: 24, crop: 'fill' }))
 
-
          if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
           .pagination
             ul.pager
@@ -64,44 +62,15 @@ block scripts
     });
 
     (function() {
-      var data = {};
-
       $.ajax({
           type: 'GET',
-          url: '/filter/os',
-          data: data,
+          url: '/filter',
           success: function(data) {
-            console.log(data)
-            $.each(data, function(index, value) {
-              $(".filter-os").append('<li><a href="/shots?page=1&limit=12&os=' + value + '">'+ value +'</a></li>');
-            })
-          }
-      });
-
-      $.ajax({
-          type: 'GET',
-          url: '/filter/de',
-          data: data,
-          success: function(data) {
-            console.log(data)
-            $.each(data, function(index, value) {
-              if(value != 'Not Present') {
-                $(".filter-de").append('<li><a href="/shots?page=1&limit=12&de=' + value + '">'+ value +'</a></li>');
+            for(var i = 0; i < data.length; i++) {
+              for(var j = 1; j < data[i].length; j++) {
+                $('.filter-' + data[i][0].type).append('<li><a href="/shots?page=1&limit=12&' + data[i][0].type + '=' + data[i][j]._id + '">'+ data[i][j]._id +'<span class="count">' + data[i][j].count + '</span></a></li>');
               }
-            })
+            }
           }
       });
-
-      $.ajax({
-          type: 'GET',
-          url: '/filter/wm',
-          data: data,
-          success: function(data) {
-            console.log(data)
-            $.each(data, function(index, value) {
-              $(".filter-wm").append('<li><a href="/shots?page=1&limit=12&wm=' + value + '">'+ value +'</a></li>');
-            })
-          }
-      });
-
     })();   

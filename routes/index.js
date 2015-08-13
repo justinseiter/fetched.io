@@ -2,6 +2,7 @@ var express              = require('express');
 var passport             = require('passport');
 var ensureAuthentication = require('../middleware/ensureAuthentication');
 var User                 = require('../models/user');
+var async                = require('async');
 var router               = express.Router();
 
 /* GET home page. */
@@ -52,12 +53,30 @@ router.get('/ping', ensureAuthentication, function(req, res){
   res.status(200).send("pong!");
 });
 
-router.get('/filter/:type', function(req, res){
-  var Shot = require('../models/shot')
-  var filter = req.params.type;
-  Shot.distinct(filter, function(err, list){
-    res.send(list)
-  })
+router.get('/filter', function(req, res, next){
+  var Shot = require('../models/shot');
+  var filterList = []
+
+  async.each(['os','de','wm'], function(item, callback) {
+    Shot.aggregate(
+      [
+        { $group:
+          { 
+            _id: "$" + item,
+            count: {$sum: 1},
+          }
+        },
+        {$sort: {count: -1}}
+      ],
+      function(err, list) {
+        list.unshift({type:item})
+        filterList.push(list)
+        callback();
+      }
+    );
+  }, function(err) {
+    res.send(filterList)
+  });
 });
 
 module.exports = router;
