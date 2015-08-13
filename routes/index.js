@@ -4,6 +4,7 @@ var ensureAuthentication = require('../middleware/ensureAuthentication');
 var User                 = require('../models/user');
 var async                = require('async');
 var router               = express.Router();
+var _ = require('lodash')
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -65,12 +66,14 @@ router.get('/filter', function(req, res, next){
             _id: "$" + item,
             count: {$sum: 1},
           }
-        },
-        {$sort: {_id: 1}}
+        }
       ],
       function(err, list) {
-        list.unshift({type:item})
-        filterList.push(list)
+        var sorted = _.sortBy(list, function (i) {
+          return i._id.toLowerCase();
+        });
+        sorted.unshift({type:item})
+        filterList.push(sorted)
         callback();
       }
     );
