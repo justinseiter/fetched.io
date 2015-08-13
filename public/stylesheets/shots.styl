@@ -134,6 +134,8 @@
   i
     width 24px
     text-align center
+    float right
+    margin-right 0.3em
   .header-small
     margin-bottom 0.5em
 
@@ -145,12 +147,18 @@
     font-size 1.3rem
     border none !important
     display block
-    padding 0.3em 0.6em 0.3em 2.3em
+    padding 0.3em 0.6em 0.3em 0.3em
     border-radius 2px
     // border-bottom 1px solid #eee
-    &:hover, &.active
+    &:hover
+      background rgba(#90AA3C, 0.1)
+      color #90AA3C
+      .count
+        color #90AA3C
+    &.active
       background #90AA3C
       color #fff
+      font-weight 600
       .count
         color #90AA3C
     .count
