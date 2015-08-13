@@ -66,7 +66,7 @@ router.get('/filter', function(req, res, next){
             count: {$sum: 1},
           }
         },
-        {$sort: {count: -1}}
+        {$sort: {_id: 1}}
       ],
       function(err, list) {
         list.unshift({type:item})
