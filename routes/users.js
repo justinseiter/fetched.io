@@ -6,14 +6,14 @@ var Shot                 = require('../models/shot');
 var router               = express.Router();
 
 /* GET users listing. */
-router.get('/:username', function(req, res) {
+router.get('/:username', function(req, res, next) {
   var username = req.params.username;
   User.findOne({ username: username }).populate({ path: 'shots', options: {sort: {created: -1}}}).exec(function(err, user){
     if(err) {
-      return res.sendStatus(500);
+      return res.render('error');
     }
     if(!user) {
-      return res.sendStatus(404);
+      return res.render('404');
     }
     res.render('users/view', {user:user.toClient()});
   });
@@ -23,10 +23,10 @@ router.get('/:username/edit', ensureAuthentication, function(req, res) {
   var username = req.params.username;
   User.findOne({ username: username }, function(err, user){
     if(err) {
-      return res.sendStatus(500);
+      return res.render('error');
     }
     if(!user) {
-      return res.sendStatus(404);
+      return res.render('404');
     }
     res.render('users/edit', {user: user});
   });
@@ -49,7 +49,7 @@ router.post('/editUser', ensureAuthentication, function(req, res){
   } 
   User.findOne(query,function(err, user){
     if(err) {
-      return res.sendStatus(500);
+      return res.render('error');
     }
     user.email = update.email;
     user.avatar = update.avatar;

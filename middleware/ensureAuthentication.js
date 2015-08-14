@@ -2,5 +2,6 @@ module.exports = function(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-  res.sendStatus(401);
+  res.status(401)
+  res.render('auth/unauthorized')
 }

@@ -2,9 +2,9 @@ extends layout
 
 block content
   .container
-    h1 Error Message
-    pre= message
-    h2 Error Status
-    pre= error.status
-    hr
-    pre #{error.stack}
+    .row
+      .three.columns
+        h1= error.status
+        span= message
+      .nine.columns
+        pre #{error.stack}

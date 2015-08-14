@@ -2,9 +2,8 @@ doctype html
 html
   head
     title Fetched.io | A Screenfetch Utility
-    link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300')
-    script(src='https://use.fonticons.com/27f251b0.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body(class=(bodyClassTag ? "#{bodyClassTag}" : ''))
     #header
       .container
@@ -35,21 +34,6 @@ html
 
     block content
 
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.min.js")
-    script(src="/javascripts/vendor/jquery.tooltipster.min.js")
-    script(src="/javascripts/vendor/pace.min.js")
-    script(type="text/javascript").
-      $(document).ready(function() {
-        $('.auth-nav').hover(
-          function () {
-            $('ul', this).stop().fadeIn(200);
-          },
-          function () {
-            $('ul', this).stop().fadeOut(100);
-          }
-        );   
-        $('.tooltip').tooltipster();
-      });
+    script(src="/dist/app.min.js")
 
     block scripts
