@@ -1,6 +1,6 @@
 // Base Express
+var compression    = require('compression');
 var express        = require('express');
-var compress = require('compression');
 var path           = require('path');
 var favicon        = require('serve-favicon');
 var logger         = require('morgan');
@@ -33,6 +33,9 @@ var cloudinary     = require('cloudinary');
 // App
 var app            = express();
 
+// Compression
+app.use(compression()); 
+
 // Cloudinary
 // Cloudinary config
 cloudinary.config({ 
@@ -40,9 +43,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY, 
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
-
-// Compression
-app.use(compress()); 
 
 // Pagination
 app.use(paginate.middleware(12, 24));
