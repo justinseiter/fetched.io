@@ -34,12 +34,11 @@ $(document).ready(function() {
     }
   );   
   $('.tooltip').tooltipster();
+});
 
-  $('.shots-container').masonry({
-    itemSelector: '.shot-card-wrapper',
-    gutter: 30
-  });
-
+$('.shots-container').masonry({
+  itemSelector: '.shot-card-wrapper',
+  gutter: 30
 });
 
 (function() {

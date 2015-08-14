@@ -14,7 +14,7 @@ block content
         .shots-container
           each shot in user.shots
             .shot-card-wrapper
-              .shot-card.u-cf
+              .shot-card
                 a(href="/shots/#{shot.id}"): img.fetch(src=cloudinary.url(shot.cloudinary_public + '.png', { width: 400, height: 225, crop: 'fill' }))
                 h2.title: a(href="/shots/#{shot.id}") #{shot.os}
                   if shot.de != 'Not Present'
