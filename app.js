@@ -116,6 +116,10 @@ app.locals.parseDate = function(timestamp){
   return moment().format('MMM Do YYYY');
 }
 
+app.locals.parseCamelCase = function(str){
+  return str.split(/(?=[A-Z])/).join(" ");
+}
+
 // Helper to see if current user is a fan of a shot
 app.locals.isFan = function(user, fans) {
   var mapped = _.map(fans, '_id')

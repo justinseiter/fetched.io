@@ -31,33 +31,52 @@ block content
         table
           tr
             td OS
-            td #{shot.os} #{shot.osVer} (#{shot.osCodeName})
-          tr
-            td DE
-            td #{shot.de} #{shot.deVer}
+            td
+              a(href="/shots?filter=os&q=#{shot.os}") #{shot.os}
+              | &nbsp;#{shot.osVer} (#{shot.osCodeName})
+          if shot.de != 'Not Present'
+            tr
+              td DE
+              td
+                a(href="/shots?filter=de&q=#{shot.de}") #{shot.de}
+                | &nbsp;#{shot.deVer}
           tr
             td WM
-            td #{shot.wm}
-          tr
-            td WM Theme
-            td #{shot.wmTheme}
-          tr
-            td GTK Theme
-            td #{shot.gtkThemeTitle}
-              if shot.gtkThemeVer && shot.gtkThemeTitle != "Not Found"
-                &nbsp;[GTK#{shot.gtkThemeVer}]
-          tr
-            td Icon Theme
-            td #{shot.iconTheme}
+            td
+              a(href="/shots?filter=wm&q=#{shot.wm}") #{shot.wm}
+          if shot.wmTheme != 'Not Found'
+            tr
+              td WM Theme
+              td
+                a(href="/shots?filter=wmTheme&q=#{shot.wmTheme}") #{shot.wmTheme}
+          if shot.gtkThemeTitle != 'Not Found'
+            tr
+              td GTK Theme
+              td 
+                a(href="/shots?filter=gtkThemeTitle&q=#{shot.gtkThemeTitle}") #{shot.gtkThemeTitle}
+                if shot.gtkThemeVer && shot.gtkThemeTitle != "Not Found"
+                  &nbsp;[GTK#{shot.gtkThemeVer}]
+          if shot.iconTheme != 'Not Found'
+            tr
+              td Icon Theme
+              td
+                a(href="/shots?filter=iconTheme&q=#{shot.iconTheme}") #{shot.iconTheme}
           tr
             td Shell
-            td #{shot.shell} #{shot.shellVer}
-          tr
-            td Resolution
-            td #{shot.resolution}
-          tr
-            td Font
-            td #{shot.font} #{shot.fontSize}
+            td 
+              a(href="/shots?filter=shell&q=#{shot.shell}") #{shot.shell}
+              | &nbsp;#{shot.shellVer}
+          if shot.resolution != ''
+            tr
+              td Resolution
+              td
+                a(href="/shots?filter=resolution&q=#{shot.resolution}") #{shot.resolution}
+          if shot.font != 'Not Found'
+            tr
+              td Font
+              td
+                a(href="/shots?filter=font&q=#{shot.font}") #{shot.font}
+                | &nbsp;#{shot.fontSize}
           tr
             td Colors
             td

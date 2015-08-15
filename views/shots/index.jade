@@ -18,11 +18,11 @@ block content
             | &nbsp;Window
           ul.filter.filter-wm
       .ten.columns.shots-wrapper
-        if(os || de || wm)
+        if(filter)
           h1.header-small
-            a(href="/shots") Shots&nbsp;
-            i.icon.icon-angle-right
-            | &nbsp;#{os}#{de}#{wm}
+            a(href="/shots") Shots
+            i.icon.icon-angle-right.seperator
+            | #{parseCamelCase(filter)} : #{q}
         .shots-container
           each shot in shots
             .shot-card-wrapper

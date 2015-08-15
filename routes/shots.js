@@ -13,18 +13,11 @@ var _                    = require('lodash');
 var paginate             = require('express-paginate');
 
 router.get('/', function (req, res, next){
-  var os = req.query.os;
-  var de = req.query.de;
-  var wm = req.query.wm;
-  var query = null;
-  if(os) {
-    query = {os:os};
-  } else if(de) {
-    query = {de:de};
-  } else if(wm) {
-    query = {wm:wm}
-  } else {
-    query = {};
+  var query = {};
+  var filter = req.query.filter;
+  var q = req.query.q
+  if(filter) {
+    query[filter] = q;
   }
   Shot.paginate(query, { page: req.query.page, limit: req.query.limit, populate: [ { path:'_shooter', select:'username avatar'}] , sortBy: {created: -1} }, function(err, shots, pageCount, itemCount) {
     if (err) return next(err);
@@ -32,9 +25,8 @@ router.get('/', function (req, res, next){
       html: function() {
         res.render('shots/index', {
           shots: shots,
-          os: os,
-          de: de,
-          wm: wm,
+          filter: filter,
+          q:q,
           pageCount: pageCount,
           itemCount: itemCount
         });

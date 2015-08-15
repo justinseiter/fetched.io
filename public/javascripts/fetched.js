@@ -22,7 +22,9 @@ $('.shots-container').masonry({
       success: function(data) {
         for(var i = 0; i < data.length; i++) {
           for(var j = 1; j < data[i].length; j++) {
-            $('.filter-' + data[i][0].type).append('<li><a href="/shots?page=1&limit=12&' + data[i][0].type + '=' + encodeURIComponent(data[i][j]._id) + '">'+ data[i][j]._id +'<span class="count">' + data[i][j].count + '</span></a></li>');
+            if(data[i][j]._id != 'Not Present') {
+              $('.filter-' + data[i][0].type).append('<li><a href="/shots?filter=' + data[i][0].type + '&q=' + encodeURIComponent(data[i][j]._id) + '">'+ data[i][j]._id +'<span class="count">' + data[i][j].count + '</span></a></li>');
+            }
           }
         }
       }
