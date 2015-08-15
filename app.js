@@ -34,13 +34,13 @@ var cloudinary     = require('cloudinary');
 var app            = express();
 
 // Compression
-app.use(compression()); 
+app.use(compression());
 
 // Cloudinary
 // Cloudinary config
-cloudinary.config({ 
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
@@ -55,7 +55,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(stylus.middleware(
-  { 
+  {
     src: __dirname + '/public/stylesheets/',
     dest: __dirname + '/public/stylesheets/',
     force : true,

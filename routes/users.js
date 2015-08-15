@@ -46,7 +46,7 @@ router.post('/editUser', ensureAuthentication, function(req, res){
     } else {
       console.log("Passwords do not match")
     }
-  } 
+  }
   User.findOne(query,function(err, user){
     if(err) {
       return res.render('error');
@@ -54,7 +54,7 @@ router.post('/editUser', ensureAuthentication, function(req, res){
     user.email = update.email;
     user.avatar = update.avatar;
     if(!updatedPassword) {
-      user.save(); 
+      user.save();
     } else {
       user.setPassword(updatedPassword, function(err, user){
         if(err) {

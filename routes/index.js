@@ -63,7 +63,7 @@ router.get('/filter', function(req, res, next){
     Shot.aggregate(
       [
         { $group:
-          { 
+          {
             _id: "$" + item,
             count: {$sum: 1},
           }

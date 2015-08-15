@@ -6,7 +6,7 @@ $(document).ready(function() {
     function () {
       $('ul', this).stop().fadeOut(100);
     }
-  );   
+  );
   $('.tooltip').tooltipster();
 });
 
@@ -29,9 +29,9 @@ $('.shots-container').masonry({
         }
       }
   });
-})();   
+})();
 
 $(document).ajaxComplete(function() {
   var url = location.pathname + location.search;
   $('.filter a[href="'+url+'"]').addClass('active');
-}); 
+});

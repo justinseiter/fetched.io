@@ -1,6 +1,6 @@
 var path = require('path');
 
-module.exports = function(grunt) {  
+module.exports = function(grunt) {
   grunt.initConfig({
     concat: {
       js: {

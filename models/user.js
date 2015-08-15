@@ -8,7 +8,7 @@ var User = new Schema({
     username: {
       type: String,
       unique: true,
-      trim: true 
+      trim: true
     },
     password: String,
     avatar: {
@@ -30,7 +30,7 @@ var User = new Schema({
 
 User.methods.toClient = function() {
   var user = _.pick(this, [
-    'username', 
+    'username',
     'shots',
     'avatar',
     'cloudinary_url'

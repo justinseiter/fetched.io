@@ -212,7 +212,7 @@ router.post('/', upload.single('file'), function(req, res, next){
             eager: [
               { width: 400, height: 225, crop: 'fill', format: 'png' },
               { width: 1200, crop: 'fit', format: 'png' }
-            ],                                     
+            ],
             eager_async: true,
             colors: true
       });
