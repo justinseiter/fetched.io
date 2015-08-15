@@ -5,7 +5,11 @@ var _                     = require('lodash');
 var shortid               = require('shortid');
 
 var User = new Schema({
-    username: String,
+    username: {
+      type: String,
+      unique: true,
+      trim: true 
+    },
     password: String,
     avatar: {
       type: String,
@@ -34,5 +38,5 @@ User.methods.toClient = function() {
   return user;
 }
 
-User.plugin(passportLocalMongoose, { usernameQueryFields : ['email'] });
+User.plugin(passportLocalMongoose, { usernameQueryFields : ['email', 'username'] });
 module.exports = mongoose.model('User', User);

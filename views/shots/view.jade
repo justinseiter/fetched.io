@@ -49,12 +49,12 @@ block content
               td WM Theme
               td
                 a(href="/shots?filter=wmTheme&q=#{shot.wmTheme}") #{shot.wmTheme}
-          if shot.gtkThemeTitle != 'Not Found'
+          if shot.gtkTheme != 'Not Found'
             tr
               td GTK Theme
               td 
-                a(href="/shots?filter=gtkThemeTitle&q=#{shot.gtkThemeTitle}") #{shot.gtkThemeTitle}
-                if shot.gtkThemeVer && shot.gtkThemeTitle != "Not Found"
+                a(href="/shots?filter=gtkTheme&q=#{shot.gtkTheme}") #{shot.gtkTheme}
+                if shot.gtkThemeVer && shot.gtkTheme != "Not Found"
                   &nbsp;[GTK#{shot.gtkThemeVer}]
           if shot.iconTheme != 'Not Found'
             tr

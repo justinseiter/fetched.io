@@ -27,8 +27,8 @@ block content
           each shot in shots
             .shot-card-wrapper
               .shot-card
-                a(href="/shots/#{shot.id}"): img.fetch(src=cloudinary.url(shot.cloudinary_public, { width: 400, height: 225, crop: 'fill', format: 'png' }))
-                h2.title: a(href="/shots/#{shot.id}") #{shot.os}
+                a(href="/shots/#{shot.shortId}"): img.fetch(src=cloudinary.url(shot.cloudinary_public, { width: 400, height: 225, crop: 'fill', format: 'png' }))
+                h2.title: a(href="/shots/#{shot.shortId}") #{shot.os}
                   if shot.de != 'Not Present'
                     | : #{shot.de} 
                 .shot-meta

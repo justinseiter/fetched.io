@@ -48,7 +48,7 @@ var Shot = new Schema({
   gtk2Theme: String,
   gtk3Theme: String,
   gtkThemeVer: String,
-  gtkThemeTitle: String,
+  gtkTheme: String,
   iconTheme: String,
   font: String,
   fontSize: String,

@@ -43,13 +43,13 @@ router.get('/', function (req, res, next){
   });
 });
 
-router.get('/:shotId', function(req, res){
-  var shotId = req.params.shotId;
-  if(!shotId) {
+router.get('/:shortId', function(req, res){
+  var shortId = req.params.shortId;
+  if(!shortId) {
     return res.sendStatus(400);
   }
   Shot
-  .findById(shotId)
+  .findOne({shortId:shortId})
   .populate('_shooter fans', {avatar:'_shooter.avatar', username:'_shooter.username'})
   .lean()
   .exec(function (err, shot) {
@@ -188,16 +188,16 @@ router.post('/', upload.single('file'), function(req, res, next){
     if(shot.gtk2Theme == "Not Found") {
       shot.gtkThemeVer = ""
     }
-    shot.gtkThemeTitle = shot.gtk3Theme;
+    shot.gtkTheme = shot.gtk3Theme;
     shot.gtkThemeVer = "2/3"
   } else if(shot.gtk2Theme == "Not Found") {
-    shot.gtkThemeTitle = shot.gtk3Theme;
+    shot.gtkTheme = shot.gtk3Theme;
     shot.gtkThemeVer = "3"
   } else if(shot.gtk3Theme == "Not Found") {
-    shot.gtkThemeTitle = shot.gtk2Theme;
+    shot.gtkTheme = shot.gtk2Theme;
     shot.gtkThemeVer = "2"
   } else {
-    shot.gtkThemeTitle = shot.gtk2Theme + shot.gtk3Theme
+    shot.gtkTheme = shot.gtk2Theme + shot.gtk3Theme
   }
 
   async.waterfall([
