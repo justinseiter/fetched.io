@@ -22,19 +22,19 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
 1. Signup at http://fetched.io/register and get your **FETCHED_ID**.
 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or wherever you prefer to keep these variable. The result we're after is getting back your FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID```.
 3. Install/Update screenFetch (2 Options) - **Option A:** Install the Fetched.io fork of screenFetch with the "fetch" upload feature. **Option B:** Update an existing copy of screenFetch to use Fetched.io.
-    + **Option A: Install Fetched.io Version**
+    1. **Option A: Install Fetched.io Version**
 
-      $ wget https://github.com/justinseiter/screenFetch/archive/master.zip
-      $ unzip master.zip
-      $ sudo mv screenFetch-master/screenfetch-dev /usr/bin/
-      $ cd /usr/bin
-      $ sudo mv screenfetch-dev screenfetch
-      $ chmod 755 screenfetch
+            $ wget https://github.com/justinseiter/screenFetch/archive/master.zip
+            $ unzip master.zip
+            $ sudo mv screenFetch-master/screenfetch-dev /usr/bin/
+            $ cd /usr/bin
+            $ sudo mv screenfetch-dev screenfetch
+            $ chmod 755 screenfetch
 
-    + **Option B: Install/Update screenFetch**
+    2. **Option B: Install/Update screenFetch**
         1. Install [screenFetch](https://github.com/KittyKatt/screenFetch) or go to the next step if you already have it.
         2. Add [the following snippet](https://gist.github.com/justinseiter/cd624a4948596a72cd32) to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with ```which screenfetch```. [This is what your copy of screenFetch should look like when you're done.](https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096)
- 4. You're all set! Now just issue the command ```screenfetch -s -u fetch```.
+4. You're all set! Now just issue the command ```screenfetch -s -u fetch```.
 
 ## Troubleshooting
 
