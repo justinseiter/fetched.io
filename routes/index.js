@@ -35,6 +35,10 @@ router.get('/start', ensureAuthentication, function(req, res) {
   res.render('auth/start', { bodyClassTag: 'auth' });
 });
 
+router.get('/gettingstarted', function(req, res) {
+  res.render('gettingstarted', { bodyClassTag: 'static' });
+});
+
 router.get('/login', function(req, res) {
   if(req.user) {
     res.redirect('/shots')

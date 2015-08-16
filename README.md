@@ -1,5 +1,5 @@
 #Fetched.io
-[Fetched.io](http://fetched.io) is a [screenFetch](https://github.com/KittyKatt/screenFetch) utility built to store screenshots as well as the metadata captured by screenFetch. The final product is a web app that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
+[Fetched.io](http://fetched.io) is a web app built to store screenshots as well as the metadata captured by the command line tool [screenFetch](https://github.com/KittyKatt/screenFetch). The final product is a web app that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
 
 ![Fetched.io upload in action.](http://res.cloudinary.com/dujajeeu7/image/upload/v1439360764/fetchedio_r6zutx.gif)
 
@@ -20,7 +20,7 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
 **The "fetch" option has not been officially merged into the main screenFetch app yet.**  However, you can use the following steps to start submitting shots to Fetched.io.
 
  1. Signup at http://fetched.io/register and get your **FETCHED_ID**.
- 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or anywhere you prefer. The result we're after is getting back your FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID```.
+ 2. Add your FETCHED_ID to your existing list of local environment variables. You can store it in your ```.profile``` or wherever you prefer to keep these variable. The result we're after is getting back your FETCHED_ID when we echo the variable, eg ```echo $FETCHED_ID```.
  3. Install [screenFetch](https://github.com/KittyKatt/screenFetch) or go to the next step if you already have it.
  4.  Add [the following snippet](https://gist.github.com/justinseiter/cd624a4948596a72cd32) to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with ```which screenfetch```. [This is what your copy of screenFetch should look like when you're done.](https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096)
  5. You're all set! Now just issue the command ```screenfetch -s -u fetch```.
@@ -37,4 +37,4 @@ After the shot is successfully uploaded Fetched.io will send screenFetch a direc
 
 **ISSUE: Uploads stopped working and no link is produced.**
 
-**SOLUTION:** This could be due to your local copy of screenFetch getting updated by your package manager. See "Step 4" above to add the "fetch" snippet back. I know, this sucks. However, if/when "fetch" is merged into the official screenFetch app everything will be dandy. :)
+**SOLUTION:** This could be due to your local copy of screenFetch getting overwritten by your package manager. See "Step 4" above to add the "fetch" snippet back. I know, this sucks. However, if/when "fetch" is merged into the official screenFetch app everything will be dandy. :)

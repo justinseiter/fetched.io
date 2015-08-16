@@ -27,7 +27,10 @@ block content
                a(href="/register") Join
             a(href="#{shot.cloudinary_url}" target="_new" title="Show Original" class="tooltip"): i.icon.icon-expand
       .four.columns
-        h1.header-small #{shot.os} : #{shot.de} : #{shot.wm}
+        h1.header-small #{shot.os} :
+          if(shot.de != 'Not Present')
+            | &nbsp;#{shot.de} :
+          | &nbsp;#{shot.wm}
         table
           tr
             td OS
