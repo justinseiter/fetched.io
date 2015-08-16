@@ -2,57 +2,68 @@ extends layout
 
 block content
   .container
-    .row
-      .three.columns &nbsp;
-      .six.columns
-        .page-body.pad
-          .flash.warn
-            i.icon.icon-exclamation-circle
-            | &nbsp;Warning! So experimental it hurts.
-          h2.header-small
-            i.icon.icon-desktop
-            | &nbsp;How It Works
-          p.lead
-            | Fetched.io is a web app built to store screenshots as well as the metadata captured by the command line tool #[a(href="https://github.com/KittyKatt/screenFetch") screenFetch]. The final product is a web app that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
-          img(class="page-image" src="http://res.cloudinary.com/dujajeeu7/image/upload/v1439360764/fetchedio_r6zutx.gif")
-          p
-           | Once a Fetched.io account is created the user adds their newly issued Fetched.io ID to their list of local environment variables. 
-          pre export FETCHED_ID=123456789
-          p
-            | Shots can be taken and uploaded by passing screenFetch the "-s" (screenshot) and "-u" (upload) flags. The final "fetch" flag tells screenFetch where to push the shot.
-          pre
-            | $ screenfetch -s -u fetch
-            | Taking shot in 3.. 2.. 1..
-          p After the shot is successfully uploaded Fetched.io will send screenFetch a direct link to the shot.
-          pre
-            | ==>  Your screenshot can be viewed at http://fetched.io/shots/abcd
-          h2.header-small
-            i.icon.icon-terminal
-            | &nbsp;Installation
-          p <strong>The "fetch" option has not been officially merged into the main screenFetch app yet.</strong> However, you can use the following steps to start submitting shots to Fetched.io.
-          ol
-            li Signup #[a(href="/register") here] and get your FETCHED_ID.
-            li Add your FETCHED_ID to your existing list of local environment variables. You can store it in your <code>.profile</code> or wherever you prefer to keep these variables. The result we're after is getting back your FETCHED_ID when we echo the variable, eg <code>echo $FETCHED_ID</code>.
-            li #[a(href="https://github.com/KittyKatt/screenFetch") Install screenFetch] or go to the next step if you already have it.
-            li Add #[a(href="https://gist.github.com/justinseiter/cd624a4948596a72cd32") the following snippet] to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with which screenfetch. #[a(href="https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096") This is what your copy of screenFetch should look like when you are done.]
-            li You're all set! Now just issue the command:
-              pre screenfetch -s -u fetch
-          h2.header-small
-            i.icon.icon-life-ring
-            | &nbsp;Troubleshooting
-          p
-            | <strong>ISSUE: No link is returned, ie -</strong> <code>your screenshot can be viewed at</code>
-            br
-            | <strong>SOLUTION:</strong> This probably means you haven't updated your local copy of screenFetch with the "fetch" snippet. See "Step 4" above. It's also possible you mistyped the command. It should be
-            pre screenfetch -s -u fetch
-          p
-            | <strong>ISSUE: Link takes you directly to http://fetched.io/shots/</strong>
-            br
-            | <strong>SOLUTION:</strong> If your link does not include an ID for the shot in the path, ie - <code>shots/1a2b3c...</code> it probably means it cannot find the FETCHED_ID local variable. Check that the variable is available by typing <code>echo $FETCHED_ID</code> in your terminal. If a blank line is returned see "Step 2" above. Note, if you added the environment variable to your <code>.profile</code> you'll need to logout/login or issue the command <code>source ~/.profile</code> to reload the variables in the file.
-          p
-            | <strong>ISSUE: Uploads stopped working and no link is produced.</strong>
-            br
-            | <strong>SOLUTION:</strong> This could be due to your local copy of screenFetch getting overwritten by your package manager. See "Step 4" above to add the "fetch" snippet back. I know, this sucks. However, if/when "fetch" is merged into the official screenFetch app everything will be dandy. :)
-
-
-      .three.columns &nbsp;
+    .page-body.pad
+      .flash.warn
+        h2.header-warn Warning
+        p Fetched.io is under development. Stuff you do today might not be here tomorrow.
+      h2.header-small
+        i.icon.icon-desktop
+        | &nbsp;How It Works
+      p.lead
+        | Fetched.io is a web app built to store screenshots as well as the metadata captured by the command line tool #[a(href="https://github.com/KittyKatt/screenFetch") screenFetch]. The final product is a web app that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
+      img(class="page-image" src="http://res.cloudinary.com/dujajeeu7/image/upload/v1439360764/fetchedio_r6zutx.gif")
+      p
+       | Once a Fetched.io account is created the user adds their newly issued Fetched.io ID to their list of local environment variables. 
+      pre export FETCHED_ID=123456789
+      p
+        | Shots can be taken and uploaded by passing screenFetch the "-s" (screenshot) and "-u" (upload) flags. The final "fetch" flag tells screenFetch where to push the shot.
+      pre
+        | $ screenfetch -s -u fetch
+        | Taking shot in 3.. 2.. 1..
+      p After the shot is successfully uploaded Fetched.io will send screenFetch a direct link to the shot.
+      pre
+        | ==>  Your screenshot can be viewed at http://fetched.io/shots/abcd
+      h2.header-small
+        i.icon.icon-terminal
+        | &nbsp;Installation
+      p <strong class="highlite">The "fetch" option has not been officially merged into the main screenFetch app yet.</strong> However, you can use the following steps to start submitting shots to Fetched.io.
+      ol
+        li Signup #[a(href="/register") here] and get your FETCHED_ID.
+        li Add your FETCHED_ID to your existing list of local environment variables. You can store it in your <code>.profile</code> or wherever you prefer to keep these variables. The result we're after is getting back your FETCHED_ID when we echo the variable, eg <code>echo $FETCHED_ID</code>.
+        li Install/Update screenFetch (2 Options)
+          br
+          <strong>Option A</strong>: Install the Fetched.io fork of screenFetch with the "fetch" upload feature.
+          br
+          <strong>Option B</strong>: Install and/or Update an existing copy of screenFetch to use Fetched.io.
+          ul
+            li <strong>Option A: Install Fetched.io Version</strong>
+              br
+              pre
+                $ wget https://github.com/justinseiter/screenFetch/archive/master.zip
+                $ unzip master.zip
+                $ sudo mv screenFetch-master/screenfetch-dev /usr/bin/
+                $ cd /usr/bin
+                $ sudo mv screenfetch-dev screenfetch
+                $ chmod 755 screenfetch
+            li <strong>Option B: Install/Update screenFetch</strong>
+              br
+              ol
+                li #[a(href="https://github.com/KittyKatt/screenFetch") Install screenFetch] or move to step 2 if you already have it.
+                li Add #[a(href="https://gist.github.com/justinseiter/cd624a4948596a72cd32") the following snippet] to the "takeShot" section of your local screenFetch. Add it is just before the "local-example". You can find where screenFetch is located on your system with <code>which screenfetch</code>. #[a(href="https://github.com/justinseiter/screenFetch/blob/master/screenfetch-dev#L2096") This is what your copy of screenFetch should look like when you are done.]
+        li You're all set! Now just issue the command:
+          pre $ screenfetch -s -u fetch
+      h2.header-small
+        i.icon.icon-life-ring
+        | &nbsp;Troubleshooting
+      p
+        | <strong>ISSUE: No link is returned, ie -</strong> <code>your screenshot can be viewed at</code>
+        br
+        | <strong>SOLUTION:</strong> This probably means you haven't updated your local copy of screenFetch with the "fetch" snippet. See "Step 4" above. It's also possible you mistyped the command. It should be: <code>screenfetch -s -u fetch</code>
+      p
+        | <strong>ISSUE: Link takes you directly to http://fetched.io/shots/</strong>
+        br
+        | <strong>SOLUTION:</strong> If your link does not include an ID for the shot in the path, ie - <code>shots/1a2b3c...</code> it probably means it cannot find the FETCHED_ID local variable. Check that the variable is available by typing <code>echo $FETCHED_ID</code> in your terminal. If a blank line is returned see "Step 2" above. Note, if you added the environment variable to your <code>.profile</code> you'll need to logout/login or issue the command <code>source ~/.profile</code> to reload the variables in the file.
+      p
+        | <strong>ISSUE: Uploads stopped working and no link is produced.</strong>
+        br
+        | <strong>SOLUTION:</strong> This could be due to your local copy of screenFetch getting overwritten by your package manager. See "Step 4" above to add the "fetch" snippet back. I know, this sucks. However, if/when "fetch" is merged into the official screenFetch app everything will be dandy. :)
