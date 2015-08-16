@@ -181,8 +181,8 @@ router.post('/', upload.single('file'), function(req, res, next){
       }
 
       /**
-       * We know the last element from screenFetch
-       * is a number if the length is greater than 1
+       * After parsing, we know the last element from screenFetch
+       * is a number if the length is greater than 1.
        */
       if(parsed.length > 1) {
         fdata.number = parsed.pop();
@@ -239,10 +239,14 @@ router.post('/', upload.single('file'), function(req, res, next){
         callback();
       }, {
             eager: [
+
+              // Tell Cloudinary we need these two transformations NOW!
               { width: 400, height: 225, crop: 'fill', format: 'png' },
               { width: 1200, crop: 'fit', format: 'png' }
             ],
             eager_async: true,
+
+            // Extract color data from image
             colors: true
       });
     },

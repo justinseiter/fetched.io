@@ -11,6 +11,7 @@ var _ = require('lodash')
 //   res.render('index', { title: 'Express' });
 // });
 
+// Temporarily redirect to shots
 router.get('/', function (req, res) {
   res.redirect('/shots');
 });
@@ -55,15 +56,11 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/ping', ensureAuthentication, function(req, res){
-  res.status(200).send("pong!");
-});
-
 router.get('/filter', function(req, res, next){
   var Shot = require('../models/shot');
-  var filterList = []
+  var filterList = ['os','de','wm']
 
-  async.each(['os','de','wm'], function(item, callback) {
+  async.each(filterList, function(item, callback) {
     Shot.aggregate(
       [
         { $group:
@@ -74,9 +71,13 @@ router.get('/filter', function(req, res, next){
         }
       ],
       function(err, list) {
+
+        // Compare strings by lowercase for proper sorting
         var sorted = _.sortBy(list, function (i) {
           return i._id.toLowerCase();
         });
+
+        // After sorting we add the 'type' as the first element
         sorted.unshift({type:item})
         filterList.push(sorted)
         callback();

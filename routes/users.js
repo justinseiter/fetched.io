@@ -5,7 +5,7 @@ var User                 = require('../models/user');
 var Shot                 = require('../models/shot');
 var router               = express.Router();
 
-/* GET users listing. */
+// GET users listing by username
 router.get('/:username', function(req, res, next) {
   var username = req.params.username;
   User.findOne({ username: username }).populate({ path: 'shots', options: {sort: {created: -1}}}).exec(function(err, user){
@@ -15,10 +15,13 @@ router.get('/:username', function(req, res, next) {
     if(!user) {
       return res.render('404');
     }
+
+    // Pass user toClient method to protect sensitive data
     res.render('users/view', {user:user.toClient()});
   });
 });
 
+// GET edit view
 router.get('/:username/edit', ensureAuthentication, function(req, res) {
   var username = req.params.username;
   User.findOne({ username: username }, function(err, user){
@@ -32,6 +35,7 @@ router.get('/:username/edit', ensureAuthentication, function(req, res) {
   });
 });
 
+// POST edit user
 router.post('/editUser', ensureAuthentication, function(req, res){
   var query = { username: req.body.username }
   var update = {
@@ -40,6 +44,8 @@ router.post('/editUser', ensureAuthentication, function(req, res){
     newPassword: req.body.newPassword,
     email: req.body.email
   }
+
+  // Check to see if new password fields match
   if(update.newPassword) {
     if(update.password === update.newPassword){
       var updatedPassword = update.password
@@ -56,6 +62,8 @@ router.post('/editUser', ensureAuthentication, function(req, res){
     if(!updatedPassword) {
       user.save();
     } else {
+
+      // If password changed, pass updatePassword method
       user.setPassword(updatedPassword, function(err, user){
         if(err) {
           res.send(err)

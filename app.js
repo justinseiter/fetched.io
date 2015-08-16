@@ -36,7 +36,6 @@ var app            = express();
 // Compression
 app.use(compression());
 
-// Cloudinary
 // Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -44,7 +43,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Pagination
+// Pagination - Set defaults
 app.use(paginate.middleware(12, 24));
 
 // Method OVERRIDE
@@ -111,11 +110,15 @@ app.locals.addBodyTag = function(str){
 // Cloudinary ref for views
 app.locals.cloudinary = cloudinary;
 
-// Pretty dates using format package
+// Pretty dates using 'format' module
 app.locals.parseDate = function(timestamp){
   return moment().format('MMM Do YYYY');
 }
 
+/**
+ * Add spaces when using schema field names in filter headers
+ * ie - gtkTheme -> gtk theme
+ */
 app.locals.parseCamelCase = function(str){
   return str.split(/(?=[A-Z])/).join(" ");
 }
@@ -152,10 +155,12 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
+// Error Handlers
 
-// development error handler
-// will print stacktrace
+/**
+ * Development error handler
+ * will print stacktrace
+ */
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -166,8 +171,10 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+/**
+ * Production error handler
+ * no stacktraces leaked to user
+ */
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
@@ -175,6 +182,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
