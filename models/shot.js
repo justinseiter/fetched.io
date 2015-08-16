@@ -60,40 +60,5 @@ var Shot = new Schema({
   cloudinary_url: String,
 });
 
-Shot.methods.toClient = function() {
-  var shot = _.pick(this, [
-    'shortId',
-    'created',
-    '_shooter',
-    'colors',
-    'fans',
-    'os',
-    'osVer',
-    'osCodeName',
-    'kernel',
-    'uptime',
-    'packages',
-    'shell',
-    'resolution',
-    'de',
-    'deVer',
-    'wm',
-    'wmTheme',
-    'gtkTheme',
-    'gtkThemeVer',
-    'iconTheme',
-    'font',
-    'fontSize',
-    'cpu',
-    'gpu',
-    'ram',
-    'cloudinary_public',
-    'cloudinary_url'
-  ]);
-  shot.id = this._id;
-  return shot;
-}
-
 Shot.plugin(mongoosePaginate);
-
 module.exports = mongoose.model('Shot', Shot);

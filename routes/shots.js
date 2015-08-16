@@ -12,13 +12,18 @@ var ensureAuthentication = require('../middleware/ensureAuthentication')
 var _                    = require('lodash');
 var paginate             = require('express-paginate');
 
+// GET /shots index
 router.get('/', function (req, res, next){
+
+  // Get queries if we have any
   var query = {};
   var filter = req.query.filter;
   var q = req.query.q
   if(filter) {
     query[filter] = q;
   }
+
+  // Use express-paginate and minimal population from _shooter
   Shot.paginate(query, { page: req.query.page, limit: req.query.limit, populate: [ { path:'_shooter', select:'username avatar'}] , sortBy: {created: -1} }, function(err, shots, pageCount, itemCount) {
     if (err) return next(err);
     res.format({
@@ -32,7 +37,6 @@ router.get('/', function (req, res, next){
         });
       },
       json: function() {
-        // inspired by Stripe's API response for list objects
         res.json({
           object: 'list',
           has_more: paginate.hasNextPages(req)(pageCount),
@@ -43,6 +47,7 @@ router.get('/', function (req, res, next){
   });
 });
 
+// GET /shot view
 router.get('/:shortId', function(req, res){
   var shortId = req.params.shortId;
   if(!shortId) {
@@ -64,6 +69,7 @@ router.get('/:shortId', function(req, res){
   });
 });
 
+// POST like shot
 router.post('/:shotId/like', ensureAuthentication, function(req, res){
   var shotId = req.params.shotId;
   var fan = req.body.fan;
@@ -87,13 +93,14 @@ router.post('/:shotId/like', ensureAuthentication, function(req, res){
   });
 });
 
-
-
+// DELETE shot
 router.delete('/:shotId', ensureAuthentication, function(req, res, next){
   var shotId = req.params.shotId;
   if(!shotId) {
     return res.sendStatus(400);
   }
+
+  // Start async waterfall
   async.waterfall([
     function(callback) {
       Shot.findById(shotId, function(err, shot){
@@ -118,6 +125,8 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
         if (err) {
           return next(err)
         }
+
+        // Remove the shot from the User
         var userShots = user.shots;
         var killShot = userShots.indexOf(shot._id);
         userShots.splice(killShot, 1);
@@ -128,7 +137,6 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
   ],
   function(err, shot){
     if (err) {
-      // If an error occured, we let express/connect handle it by calling the "next" function
       return next(err);
     }
     Shot.remove(shot, function(err){
@@ -141,14 +149,24 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
 
 });
 
+// POST shot from screenFetch
 router.post('/', upload.single('file'), function(req, res, next){
   var shot = req.body;
   var image = req.file;
 
   shot.originalName = image.originalname;
 
+  /**
+   * filterData() returns a new object
+   * from a screenFetch string.
+   *
+   * @param {String} screenFetch string
+   * @return {Objecet} fdata{name, number}
+   */
   function filterData(str, callback) {
     var fdata = {};
+
+    // First check the 'Nots'
     if(str == 'Not Found') {
       fdata.name = 'Not Found';
       fdata.number = '';
@@ -161,6 +179,11 @@ router.post('/', upload.single('file'), function(req, res, next){
       for(var i = 0; i < splitAry.length; i++){
         parsed.push(splitAry[i])
       }
+
+      /**
+       * We know the last element from screenFetch
+       * is a number if the length is greater than 1
+       */
       if(parsed.length > 1) {
         fdata.number = parsed.pop();
       }
@@ -185,6 +208,11 @@ router.post('/', upload.single('file'), function(req, res, next){
   });
 
   if(shot.gtk2Theme == shot.gtk3Theme) {
+
+    /**
+     * If they are equal, check to make sure
+     * they both aren't set to 'Not Found' 
+     */
     if(shot.gtk2Theme == "Not Found") {
       shot.gtkThemeVer = ""
     }
@@ -201,6 +229,7 @@ router.post('/', upload.single('file'), function(req, res, next){
   }
 
   async.waterfall([
+
     // Upload image to Cloudinary
     function(callback) {
       cloudinary.uploader.upload(image.path, function(result){
@@ -217,6 +246,7 @@ router.post('/', upload.single('file'), function(req, res, next){
             colors: true
       });
     },
+
     // Remove tmp file from uploads
     function(callback) {
       fs.unlink('./uploads/' + image.filename, function (err) {
@@ -227,6 +257,8 @@ router.post('/', upload.single('file'), function(req, res, next){
       });
     },
     function(callback) {
+
+      // Set the _shooter based on the fetchedKey from screenFetch
       User.findOne({ fetchedKey:shot.fetchedKey }, function(err, user){
         if(err) {
           return res.sendStatus(500);
@@ -245,9 +277,10 @@ router.post('/', upload.single('file'), function(req, res, next){
       }
       Shot.create(shot, function(err, shot){
         if(err) {
-          // return res.sendStatus(500);
           return res.status(500).send(err)
         }
+
+        // Add the shot object to the User
         user.shots.push(shot)
         user.save();
         res.send({shot:shot});
