@@ -30,6 +30,7 @@
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^1.0.1",
+    "request": "^2.60.0",
     "serve-favicon": "~2.2.1",
     "shortid": "^2.2.2",
     "should": "^7.0.2",

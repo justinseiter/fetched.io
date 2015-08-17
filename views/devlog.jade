@@ -5,6 +5,10 @@ block content
     .page-body.pad
       .page-header
         h1 Dev Log
+        .powered-by
+          a(href="https://trello.com/b/7UbRw7n2/web-app")
+            i.icon.icon-trello
+            | Powered By Trello
       each val, key in lists
         h2.header-small #{key}
         ul(class="#{key}")
