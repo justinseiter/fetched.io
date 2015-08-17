@@ -152,6 +152,8 @@ router.delete('/:shotId', ensureAuthentication, function(req, res, next){
 // POST shot from screenFetch
 router.post('/', upload.single('file'), function(req, res, next){
   var shot = req.body;
+
+  // Grab file from multer middleware
   var image = req.file;
 
   shot.originalName = image.originalname;
