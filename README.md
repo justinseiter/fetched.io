@@ -1,5 +1,5 @@
 #Fetched.io
-[Fetched.io](http://fetched.io) is a web app built to store screenshots as well as the metadata captured by the command line tool [screenFetch](https://github.com/KittyKatt/screenFetch). The final product is a web app that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
+[Fetched.io](http://fetched.io) is a web app built to store screenshots as well as the metadata captured by the command line tool [screenFetch](https://github.com/KittyKatt/screenFetch). The final product is a community that allows users to browse screenshots by distro, desktop environment, or any other screenFetch data point.
 
 ![Fetched.io upload in action.](http://res.cloudinary.com/dujajeeu7/image/upload/v1439360764/fetchedio_r6zutx.gif)
 
