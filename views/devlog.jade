@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .container
+    .page-body.pad
+      .page-header
+        h1 Dev Log
+      each val, key in lists
+        h2.header-small #{key}
+        ul(class="#{key}")
+          for item in val
+            li #{item.name}
+              br
+              .timestamp #{parseDate(item.dateLastActivity)}
+

@@ -11,9 +11,10 @@ var session        = require('express-session');
 // Routes
 var paginate       = require('express-paginate');
 var routes         = require('./routes/index');
-var shots          = require('./routes/shots')
-var users          = require('./routes/users')
-var methodOverride = require('method-override')
+var shots          = require('./routes/shots');
+var users          = require('./routes/users');
+var devlog         = require('./routes/devlog');
+var methodOverride = require('method-override');
 
 // Schema & Passport
 var mongoose       = require('mongoose');
@@ -112,7 +113,7 @@ app.locals.cloudinary = cloudinary;
 
 // Pretty dates using 'format' module
 app.locals.parseDate = function(timestamp){
-  return moment().format('MMM Do YYYY');
+  return moment(timestamp).format('ll');
 }
 
 /**
@@ -138,6 +139,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/shots', shots);
 app.use('/users', users);
+app.use('/devlog', devlog);
 
 // Passport Config
 var User = require('./models/user');
